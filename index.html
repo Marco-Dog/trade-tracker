@@ -3,70 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交易紀錄系統</title>
-    <link rel="stylesheet" href="style.css">
+    <title>交易記錄系統</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1>股票與選擇權交易記錄</h1>
 
-    <header>
-        <h1>交易紀錄系統</h1>
-    </header>
-
-    <div class="tab-container">
-        <div class="tab" onclick="showTab('stockTab')">股票交易</div>
+    <div class="tabs">
+        <button onclick="showTab('stockTab')">股票</button>
+        <button onclick="showTab('optionsTab')">選擇權</button>
     </div>
-    
-    <!-- 股票交易頁籤 -->
+
+    <!-- 股票頁籤 -->
     <div id="stockTab" class="tab-content">
-        <h2>股票交易紀錄</h2>
-        
-        <!-- 總盈虧與年化報酬率 -->
-        <div id="summary">
-            <div>
-                <strong>總盈虧: </strong><span id="totalProfit">0</span>元
-            </div>
-            <div>
-                <strong>年化報酬率: </strong><span id="annualReturn">0</span>%
-            </div>
-        </div>
-
+        <h2>股票交易記錄</h2>
         <form id="stockForm">
-            <label for="stockCode">股票代號:</label>
-            <input type="text" id="stockCode" name="stockCode" required>
-
-            <label for="stockTradeType">交易類型:</label>
-            <select id="stockTradeType" name="stockTradeType" required>
-                <option value="買入">買入</option>
-                <option value="賣出">賣出</option>
-            </select>
-
-            <label for="stockTradeDate">交易日期:</label>
-            <input type="date" id="stockTradeDate" name="stockTradeDate" required>
-
-            <label for="stockTradePrice">交易價格:</label>
-            <input type="number" id="stockTradePrice" name="stockTradePrice" required>
-
-            <label for="stockTradeQty">數量:</label>
-            <input type="number" id="stockTradeQty" name="stockTradeQty" required>
-
-            <button type="submit">提交股票紀錄</button>
+            <label>股票代號: <input type="text" id="stockCode" required></label>
+            <label>類型:
+                <select id="tradeType">
+                    <option value="buy">買入</option>
+                    <option value="sell">賣出</option>
+                </select>
+            </label>
+            <label>日期: <input type="date" id="tradeDate" required></label>
+            <label>價格: <input type="number" id="tradePrice" required></label>
+            <label>數量: <input type="number" id="tradeQty" required></label>
+            <button type="submit">提交交易</button>
         </form>
 
-        <h3>已提交的股票交易</h3>
+        <!-- 股票交易表格 -->
         <table id="stockTable">
             <thead>
                 <tr>
-                    <th>交易ID</th>
+                    <th>股票代號</th>
                     <th>類型</th>
-                    <th>代號</th>
-                    <th>交易日期</th>
-                    <th>交易價格</th>
+                    <th>日期</th>
+                    <th>價格</th>
                     <th>數量</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- 交易資料會顯示在這裡 -->
+                <!-- 股票交易紀錄會動態加載在這裡 -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 選擇權頁籤 -->
+    <div id="optionsTab" class="tab-content" style="display: none;">
+        <h2>選擇權交易記錄</h2>
+        <form id="optionsForm">
+            <label>標的代號: <input type="text" id="optionCode" required></label>
+            <label>合約內容: <input type="text" id="contract" required></label>
+            <label>類型:
+                <select id="optionTradeType">
+                    <option value="buy">買入</option>
+                    <option value="sell">賣出</option>
+                </select>
+            </label>
+            <label>日期: <input type="date" id="optionTradeDate" required></label>
+            <label>價格: <input type="number" id="optionTradePrice" required></label>
+            <label>數量: <input type="number" id="optionTradeQty" required></label>
+            <button type="submit">提交交易</button>
+        </form>
+
+        <!-- 選擇權交易表格 -->
+        <table id="optionsTable">
+            <thead>
+                <tr>
+                    <th>標的代號</th>
+                    <th>合約內容</th>
+                    <th>類型</th>
+                    <th>日期</th>
+                    <th>價格</th>
+                    <th>數量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 選擇權交易紀錄會動態加載在這裡 -->
             </tbody>
         </table>
     </div>
