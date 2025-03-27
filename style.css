@@ -1,124 +1,148 @@
-/* 基本樣式 */
+/* 全局樣式 */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 標題 */
 h1 {
     text-align: center;
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
-    margin: 0;
+    color: #333;
 }
 
+/* 分頁按鈕 */
 .tabs {
     display: flex;
     justify-content: center;
-    background-color: #333;
+    margin-bottom: 20px;
 }
 
-.tabs button {
-    padding: 10px 20px;
-    color: white;
-    background-color: #333;
+.tab-btn {
+    flex: 1;
+    padding: 12px;
     border: none;
     cursor: pointer;
-    flex: 1;
-    text-align: center;
+    background: #ddd;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
-.tabs button:hover {
-    background-color: #575757;
+.tab-btn.active {
+    background: #007bff;
+    color: white;
 }
 
-/* 頁籤內容 */
-.tab-content {
-    display: none;
-    margin: 20px;
-}
-
-/* 表單 */
+/* 交易輸入表單 */
 form {
     display: flex;
     flex-direction: column;
-    max-width: 400px;
-    margin: 0 auto 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 10px;
 }
 
-form label {
-    margin-bottom: 10px;
+label {
+    font-weight: bold;
 }
 
-form input, form select {
-    padding: 8px;
-    margin-bottom: 10px;
+input, select {
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
 }
 
-form button {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
+button {
+    padding: 12px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
 }
 
-form button:hover {
-    background-color: #45a049;
+button[type="submit"] {
+    background: #007bff;
+    color: white;
 }
 
-/* 表格 */
+button:hover {
+    background: #0056b3;
+}
+
+/* 交易紀錄表格 */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background: white;
 }
 
-table th, table td {
-    padding: 10px;
-    text-align: center;
+th, td {
+    padding: 12px;
     border: 1px solid #ddd;
+    text-align: center;
 }
 
-table th {
-    background-color: #f2f2f2;
-    color: #333;
+th {
+    background: #007bff;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tr:hover {
+    background: #f1f1f1;
 }
 
 /* 操作按鈕 */
-button.edit, button.delete {
-    padding: 5px 10px;
-    margin: 5px;
+.action-btn {
+    padding: 8px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
-button.edit {
-    background-color: #ffa500;
+.edit-btn {
+    background: #ffc107;
     color: white;
 }
 
-button.edit:hover {
-    background-color: #e68900;
-}
-
-button.delete {
-    background-color: #f44336;
+.delete-btn {
+    background: #dc3545;
     color: white;
 }
 
-button.delete:hover {
-    background-color: #e53935;
+.edit-btn:hover {
+    background: #e0a800;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+/* 總盈虧與年化報酬率 */
+.summary {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
 }
