@@ -3,34 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>股票交易記錄</title>
+    <title>交易紀錄系統</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Stock Tracker</h1>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('stocks')">正股</button>
-                <button class="tab-btn" onclick="switchTab('options')">選擇權</button>
-            </div>
-            <div class="filters">
-                <button class="filter-btn active">Today</button>
-                <button class="filter-btn">7 天</button>
-                <button class="filter-btn">30 天</button>
-            </div>
-        </header>
 
-        <section id="stocks-tab" class="tab-content">
-            <h2>今日交易</h2>
-            <div id="transaction-list"></div>
-            <button class="save-btn" onclick="saveToGoogleSheets()">儲存到雲端</button>
-        </section>
+    <header>
+        <h1>交易紀錄系統</h1>
+    </header>
 
-        <section id="options-tab" class="tab-content hidden">
-            <h2>選擇權交易</h2>
-            <p>此區塊尚待開發</p>
-        </section>
+    <div class="tab-container">
+        <div class="tab" onclick="showTab('stockTab')">股票交易</div>
+    </div>
+    
+    <!-- 股票交易頁籤 -->
+    <div id="stockTab" class="tab-content">
+        <h2>股票交易紀錄</h2>
+        
+        <!-- 總盈虧與年化報酬率 -->
+        <div id="summary">
+            <div>
+                <strong>總盈虧: </strong><span id="totalProfit">0</span>元
+            </div>
+            <div>
+                <strong>年化報酬率: </strong><span id="annualReturn">0</span>%
+            </div>
+        </div>
+
+        <form id="stockForm">
+            <label for="stockCode">股票代號:</label>
+            <input type="text" id="stockCode" name="stockCode" required>
+
+            <label for="stockTradeType">交易類型:</label>
+            <select id="stockTradeType" name="stockTradeType" required>
+                <option value="買入">買入</option>
+                <option value="賣出">賣出</option>
+            </select>
+
+            <label for="stockTradeDate">交易日期:</label>
+            <input type="date" id="stockTradeDate" name="stockTradeDate" required>
+
+            <label for="stockTradePrice">交易價格:</label>
+            <input type="number" id="stockTradePrice" name="stockTradePrice" required>
+
+            <label for="stockTradeQty">數量:</label>
+            <input type="number" id="stockTradeQty" name="stockTradeQty" required>
+
+            <button type="submit">提交股票紀錄</button>
+        </form>
+
+        <h3>已提交的股票交易</h3>
+        <table id="stockTable">
+            <thead>
+                <tr>
+                    <th>交易ID</th>
+                    <th>類型</th>
+                    <th>代號</th>
+                    <th>交易日期</th>
+                    <th>交易價格</th>
+                    <th>數量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 交易資料會顯示在這裡 -->
+            </tbody>
+        </table>
     </div>
 
     <script src="script.js"></script>
