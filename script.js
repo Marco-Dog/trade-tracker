@@ -1,18 +1,10 @@
 const scriptURL = "https://script.google.com/macros/s/AKfycbwaAWEFQbS127UQbM96ZCioC7pRDbx9swiqdDzCz_irCaq5paa5z-EuR5YZ1gkx882L/exec";
 
-// 顯示指定的頁籤
-function showTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = 'none';
-    });
-    document.getElementById(tabId).style.display = 'block';
-}
-
 // 提交股票交易表單
 document.getElementById('stockForm').addEventListener('submit', function(event) {
     event.preventDefault();
+    
     const stock = {
-        type: "stock",
         stockCode: document.getElementById('stockCode').value,
         tradeType: document.getElementById('tradeType').value,
         tradeDate: document.getElementById('tradeDate').value,
@@ -20,8 +12,12 @@ document.getElementById('stockForm').addEventListener('submit', function(event) 
         tradeQty: document.getElementById('tradeQty').value
     };
 
+    // 使用 fetch 發送資料到 Google Apps Script
     fetch(scriptURL, { 
         method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(stock) 
     })
     .then(response => {
@@ -33,57 +29,48 @@ document.getElementById('stockForm').addEventListener('submit', function(event) 
     });
 });
 
-// 更新股票表格
+// 更新表格顯示
 function updateStockTable() {
-    const tableBody = document.querySelector("#stockTable tbody");
-    tableBody.innerHTML = ''; // 清空表格內容
+    fetch(scriptURL)
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('stockTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ""; // 清空表格
+            
+            data.forEach(row => {
+                let tr = document.createElement('tr');
+                row.forEach(cell => {
+                    let td = document.createElement('td');
+                    td.appendChild(document.createTextNode(cell));
+                    tr.appendChild(td);
+                });
 
-    fetch(scriptURL, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${item.stockCode}</td>
-                <td>${item.tradeType}</td>
-                <td>${item.tradeDate}</td>
-                <td>${item.tradePrice}</td>
-                <td>${item.tradeQty}</td>
-                <td>
-                    <button class="edit" onclick="editRow(${item.id})">修改</button>
-                    <button class="delete" onclick="deleteRow(${item.id})">刪除</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    })
-    .catch(error => console.error('Error:', error));
+                // 操作列
+                let tdAction = document.createElement('td');
+                let editBtn = document.createElement('button');
+                editBtn.textContent = '修改';
+                editBtn.onclick = function() { editRow(row); };
+                let deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '刪除';
+                deleteBtn.onclick = function() { deleteRow(row); };
+                tdAction.appendChild(editBtn);
+                tdAction.appendChild(deleteBtn);
+                tr.appendChild(tdAction);
+                
+                tableBody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error loading data: ', error));
 }
 
-// 修改表格行
-function editRow(id) {
-    // 實作修改功能
-    console.log('Editing row with id:', id);
-    // 您可以根據需要打開表單並填充相應的資料
+// 修改表格資料
+function editRow(row) {
+    console.log('Editing row: ', row);
+    // 您可以添加彈出視窗或內嵌表單，將該行資料載入以進行修改。
 }
 
-// 刪除表格行
-function deleteRow(id) {
-    fetch(`${scriptURL}?id=${id}`, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        alert('交易記錄已刪除');
-        updateStockTable();  // 重新更新表格
-    })
-    .catch(error => {
-        alert('刪除失敗: ' + error.message);
-    });
+// 刪除表格資料
+function deleteRow(row) {
+    console.log('Deleting row: ', row);
+    // 請實現刪除資料的功能。
 }
-
-// 初始化表格
-document.addEventListener('DOMContentLoaded', function() {
-    updateStockTable();
-});
