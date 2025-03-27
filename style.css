@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 標題 */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* 分頁按鈕 */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    background: #ddd;
+}
+
+.tab-btn.active {
+    background: #007bff;
+    color: white;
+}
+
+/* 篩選按鈕 */
+.filters {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    background: #f1f1f1;
+}
+
+.filter-btn.active {
+    background: #007bff;
+    color: white;
+}
+
+/* 交易列表 */
+#transaction-list {
+    margin-top: 10px;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.status.open {
+    color: orange;
+}
+
+.status.match {
+    color: green;
+}
+
+.status.withdrawal {
+    color: red;
+}
+
+/* 隱藏分頁 */
+.hidden {
+    display: none;
+}
+
+/* 儲存按鈕 */
+.save-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
