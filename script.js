@@ -1,6 +1,6 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbwQpLcNvPhltGtV-Ks_o1KnF355p3RppEd4I37k2lV8dfKrrtDzA8hxYHNXxEk7OfndqA/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwaAWEFQbS127UQbM96ZCioC7pRDbx9swiqdDzCz_irCaq5paa5z-EuR5YZ1gkx882L/exec";
 
-// 顯示特定頁籤
+// 顯示指定的頁籤
 function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.style.display = 'none';
@@ -8,94 +8,82 @@ function showTab(tabId) {
     document.getElementById(tabId).style.display = 'block';
 }
 
-// 新增股票交易記錄
+// 提交股票交易表單
 document.getElementById('stockForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const stock = {
-        action: "add",
         type: "stock",
         stockCode: document.getElementById('stockCode').value,
-        tradeType: document.getElementById('stockTradeType').value,
-        tradeDate: document.getElementById('stockTradeDate').value,
-        tradePrice: document.getElementById('stockTradePrice').value,
-        tradeQty: document.getElementById('stockTradeQty').value
+        tradeType: document.getElementById('tradeType').value,
+        tradeDate: document.getElementById('tradeDate').value,
+        tradePrice: document.getElementById('tradePrice').value,
+        tradeQty: document.getElementById('tradeQty').value
     };
 
-    fetch(scriptURL, { method: 'POST', body: JSON.stringify(stock) })
-        .then(response => response.json())
-        .then(data => {
-            alert('股票交易記錄已提交，ID: ' + data.id);
-            document.getElementById('stockForm').reset();
-        })
-        .catch(error => alert('提交失敗: ' + error.message));
+    fetch(scriptURL, { 
+        method: 'POST', 
+        body: JSON.stringify(stock) 
+    })
+    .then(response => {
+        alert('股票交易記錄已提交');
+        updateStockTable();  // 重新更新表格
+    })
+    .catch(error => {
+        alert('提交失敗: ' + error.message);
+    });
 });
 
-// 新增選擇權交易記錄
-document.getElementById('optionsForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const option = {
-        action: "add",
-        type: "option",
-        optionCode: document.getElementById('optionCode').value,
-        tradeType: document.getElementById('optionTradeType').value,
-        tradeDate: document.getElementById('optionTradeDate').value,
-        tradePrice: document.getElementById('optionTradePrice').value,
-        tradeQty: document.getElementById('optionTradeQty').value,
-        contract: document.getElementById('optionContract').value
-    };
+// 更新股票表格
+function updateStockTable() {
+    const tableBody = document.querySelector("#stockTable tbody");
+    tableBody.innerHTML = ''; // 清空表格內容
 
-    fetch(scriptURL, { method: 'POST', body: JSON.stringify(option) })
-        .then(response => response.json())
-        .then(data => {
-            alert('選擇權交易記錄已提交，ID: ' + data.id);
-            document.getElementById('optionsForm').reset();
-        })
-        .catch(error => alert('提交失敗: ' + error.message));
-});
-
-// 修改交易記錄
-function editRecord(id) {
-    const row = document.getElementById(id);
-    const data = {
-        action: "edit",
-        id: id,
-        tradeType: row.cells[4].innerText,
-        tradeDate: row.cells[5].innerText,
-        tradePrice: row.cells[6].innerText,
-        tradeQty: row.cells[7].innerText
-    };
-
-    fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-        .then(response => response.text())
-        .then(responseText => {
-            alert('交易記錄已更新');
-        })
-        .catch(error => alert('更新失敗: ' + error.message));
+    fetch(scriptURL, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.stockCode}</td>
+                <td>${item.tradeType}</td>
+                <td>${item.tradeDate}</td>
+                <td>${item.tradePrice}</td>
+                <td>${item.tradeQty}</td>
+                <td>
+                    <button class="edit" onclick="editRow(${item.id})">修改</button>
+                    <button class="delete" onclick="deleteRow(${item.id})">刪除</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Error:', error));
 }
 
-// 刪除交易記錄
-function deleteRecord(id) {
-    const data = {
-        action: "delete",
-        id: id
-    };
-
-    fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-        .then(response => response.text())
-        .then(responseText => {
-            document.getElementById(id).remove();
-            alert('交易記錄已刪除');
-        })
-        .catch(error => alert('刪除失敗: ' + error.message));
+// 修改表格行
+function editRow(id) {
+    // 實作修改功能
+    console.log('Editing row with id:', id);
+    // 您可以根據需要打開表單並填充相應的資料
 }
 
-// 顯示所有交易紀錄
-function loadTransactions() {
-    // 此處應該是從 Google Sheets 抓取所有資料並顯示在表格中
-    // 可用於一開始載入頁面時填充資料
-    // 目前此範例無法實現，需搭配 Google Sheets API 或進一步的實作
+// 刪除表格行
+function deleteRow(id) {
+    fetch(`${scriptURL}?id=${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        alert('交易記錄已刪除');
+        updateStockTable();  // 重新更新表格
+    })
+    .catch(error => {
+        alert('刪除失敗: ' + error.message);
+    });
 }
 
+// 初始化表格
 document.addEventListener('DOMContentLoaded', function() {
-    loadTransactions();  // 載入交易紀錄
+    updateStockTable();
 });
