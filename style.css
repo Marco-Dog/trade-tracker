@@ -1,105 +1,150 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Reset some default styles */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* 標題 */
-h1 {
-    text-align: center;
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     color: #333;
-}
-
-/* 分頁按鈕 */
-.tabs {
+    padding: 30px;
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
 }
 
-.tab-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    background: #ddd;
+header {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.tab-btn.active {
-    background: #007bff;
-    color: white;
+h1 {
+    font-size: 36px;
+    color: #2c3e50;
 }
 
-/* 篩選按鈕 */
-.filters {
+.tab-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-.filter-btn {
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    background: #f1f1f1;
-}
-
-.filter-btn.active {
-    background: #007bff;
+.tab {
+    background-color: #3498db;
     color: white;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-/* 交易列表 */
-#transaction-list {
-    margin-top: 10px;
+.tab:hover {
+    background-color: #2980b9;
 }
 
-.transaction-item {
+.tab-content {
+    display: none;
+    width: 80%;
+    margin: 0 auto;
+}
+
+#summary {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    color: #555;
 }
 
-.status {
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
     font-weight: bold;
 }
 
-.status.open {
-    color: orange;
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.status.match {
-    color: green;
-}
-
-.status.withdrawal {
-    color: red;
-}
-
-/* 隱藏分頁 */
-.hidden {
-    display: none;
-}
-
-/* 儲存按鈕 */
-.save-btn {
-    display: block;
-    margin: 20px auto;
-    padding: 10px;
-    background: #28a745;
+form button {
+    background-color: #2ecc71;
     color: white;
+    padding: 10px;
+    width: 100%;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 18px;
+}
+
+form button:hover {
+    background-color: #27ae60;
+}
+
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+table th {
+    background-color: #3498db;
+    color: white;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+button.edit, button.delete {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+button.edit {
+    background-color: #f39c12;
+}
+
+button.delete {
+    background-color: #e74c3c;
+}
+
+button.edit:hover {
+    background-color: #e67e22;
+}
+
+button.delete:hover {
+    background-color: #c0392b;
 }
