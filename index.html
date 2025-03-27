@@ -1,83 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>交易紀錄系統</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid black; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
 </head>
 <body>
-    <h2>交易紀錄系統</h2>
+    <h1>交易紀錄系統</h1>
+
     <form id="tradeForm">
-        <label>股票代號: <input type="text" id="stockCode" required></label>
-        <label>價格: <input type="number" id="price" step="0.01" required></label>
-        <label>數量: <input type="number" id="quantity" required></label>
-        <button type="submit">新增紀錄</button>
+        <label for="stockCode">股票代號：</label>
+        <input type="text" id="stockCode" required><br>
+
+        <label for="buyPrice">買入價格：</label>
+        <input type="number" id="buyPrice" required><br>
+
+        <label for="quantity">數量：</label>
+        <input type="number" id="quantity" required><br>
+
+        <button type="submit">提交</button>
     </form>
-    <table>
-        <thead>
-            <tr>
-                <th>股票代號</th>
-                <th>價格</th>
-                <th>數量</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody id="tradeTable"></tbody>
-    </table>
-    <script>
-        const form = document.getElementById('tradeForm');
-        const tradeTable = document.getElementById('tradeTable');
-        
-        function loadTrades() {
-            const trades = JSON.parse(localStorage.getItem('trades')) || [];
-            tradeTable.innerHTML = trades.map((trade, index) => `
-                <tr>
-                    <td>${trade.stockCode}</td>
-                    <td>${trade.price}</td>
-                    <td>${trade.quantity}</td>
-                    <td><button onclick="deleteTrade(${index})">刪除</button></td>
-                </tr>
-            `).join('');
-        }
-        
-        function saveTrade(stockCode, price, quantity) {
-            const trades = JSON.parse(localStorage.getItem('trades')) || [];
-            trades.push({ stockCode, price, quantity });
-            localStorage.setItem('trades', JSON.stringify(trades));
-            loadTrades();
-        }
-        
-        function deleteTrade(index) {
-            const trades = JSON.parse(localStorage.getItem('trades')) || [];
-            trades.splice(index, 1);
-            localStorage.setItem('trades', JSON.stringify(trades));
-            loadTrades();
-        }
-        
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            saveTrade(
-                document.getElementById('stockCode').value,
-                parseFloat(document.getElementById('price').value),
-                parseInt(document.getElementById('quantity').value)
-            );
-            form.reset();
-        });
-        
-        loadTrades();
-    </script>
+
+    <p id="statusMessage"></p>
+
     <script src="script.js"></script>
-</body>
-</html>
-
-</body>
-</html>
-
 </body>
 </html>
