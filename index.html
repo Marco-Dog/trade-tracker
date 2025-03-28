@@ -1,47 +1,66 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交易記錄系統</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTC 資訊追蹤</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>股票交易記錄</h1>
-
-    <!-- 股票交易表單 -->
-    <form id="stockForm">
-        <label>股票代號: <input type="text" id="stockCode" required></label>
-        <label>類型:
-            <select id="tradeType">
-                <option value="buy">買入</option>
-                <option value="sell">賣出</option>
-            </select>
-        </label>
-        <label>日期: <input type="date" id="tradeDate" required></label>
-        <label>價格: <input type="number" id="tradePrice" required></label>
-        <label>數量: <input type="number" id="tradeQty" required></label>
-        <button type="submit">提交交易</button>
-    </form>
-
-    <!-- 股票交易表格 -->
-    <h2>交易紀錄</h2>
-    <table id="stockTable">
+  <div class="container">
+    <header>
+      <h1>BTC 資訊追蹤</h1>
+    </header>
+    <!-- 即時報價區域 -->
+    <section id="real-time-quotes">
+      <h2>即時報價</h2>
+      <div id="quotes-container">
+        <!-- 即時報價會顯示在這裡 -->
+      </div>
+    </section>
+    
+    <!-- 交易紀錄區域 -->
+    <section id="transaction-records">
+      <h2>輸入交易紀錄</h2>
+      <form id="transaction-form">
+        <input type="date" id="date" required>
+        <select id="currency" required>
+          <option value="BTC">BTC</option>
+          <option value="ETH">ETH</option>
+          <option value="ADA">ADA</option>
+          <option value="DOGE">DOGE</option>
+          <option value="SHIB">SHIB</option>
+        </select>
+        <select id="action" required>
+          <option value="buy">買入</option>
+          <option value="sell">賣出</option>
+        </select>
+        <input type="number" id="price" placeholder="價格" required>
+        <input type="number" id="quantity" placeholder="數量" required>
+        <input type="number" id="fee" placeholder="手續費" required>
+        <textarea id="note" placeholder="備註"></textarea>
+        <button type="submit">新增交易</button>
+      </form>
+      <table id="transaction-table">
         <thead>
-            <tr>
-                <th>股票代號</th>
-                <th>類型</th>
-                <th>日期</th>
-                <th>價格</th>
-                <th>數量</th>
-                <th>操作</th>
-            </tr>
+          <tr>
+            <th>日期</th>
+            <th>幣別</th>
+            <th>買入/賣出</th>
+            <th>價格</th>
+            <th>數量</th>
+            <th>手續費</th>
+            <th>備註</th>
+            <th>操作</th>
+          </tr>
         </thead>
         <tbody>
-            <!-- 股票交易紀錄會動態加載在這裡 -->
+          <!-- 交易紀錄將顯示在這裡 -->
         </tbody>
-    </table>
-
-    <script src="script.js"></script>
+      </table>
+    </section>
+  </div>
+  <script src="app.js"></script>
+  <script src="googleSheet.js"></script>
 </body>
 </html>
