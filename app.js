@@ -1,64 +1,67 @@
+// CoinGecko API URL
+const COINGECKO_API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,cardano,dogecoin,shiba-inu&vs_currencies=twd";
+
 // 即時報價區域更新
 async function updateQuotes() {
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbwaAWEFQbS127UQbM96ZCioC7pRDbx9swiqdDzCz_irCaq5paa5z-EuR5YZ1gkx882L/exec';
-  const currencies = ['BTC', 'ETH', 'ADA', 'DOGE', 'SHIB']; // 定義五個幣別
-  const response = await fetch(apiUrl);
-  const data = await response.json();
+  try {
+    const response = await fetch(COINGECKO_API_URL);
+    const data = await response.json();
 
-  // 確保 API 回傳的數據有正確的結構
-  if (data && data.rates) {
-    const rates = data.rates;
+    // 模擬的持倉量和獲利資料，您可以根據實際情況進行動態更新
+    const portfolio = {
+      BTC: { position: 0.5, profit: 5000, buyPrice: 48000 },
+      ETH: { position: 1, profit: -100, buyPrice: 3200 },
+      ADA: { position: 100, profit: 250, buyPrice: 2.3 },
+      DOGE: { position: 10000, profit: -50, buyPrice: 0.08 },
+      SHIB: { position: 1000000, profit: 100, buyPrice: 0.000008 },
+    };
+
+    // 更新每個幣別的報價
+    updateCurrencyData("BTC", data.bitcoin.twd, portfolio.BTC);
+    updateCurrencyData("ETH", data.ethereum.twd, portfolio.ETH);
+    updateCurrencyData("ADA", data.cardano.twd, portfolio.ADA);
+    updateCurrencyData("DOGE", data.dogecoin.twd, portfolio.DOGE);
+    updateCurrencyData("SHIB", data["shiba-inu"].twd, portfolio.SHIB);
     
-    // 更新每個幣別的即時報價
-    currencies.forEach(currency => {
-      const currencyRate = rates[currency];
-      const quoteContainer = document.getElementById('quotes-container');
-
-      const quoteElement = document.createElement('div');
-      quoteElement.classList.add('quote');
-      quoteElement.innerHTML = `
-        <p class="currency-name">${currency}</p>
-        <p class="quote-value" id="${currency.toLowerCase()}-price">${currencyRate ? `$${currencyRate}` : '--'}</p>
-        <p class="position-info">持倉量: <span id="${currency.toLowerCase()}-position">0</span> | 獲利: <span id="${currency.toLowerCase()}-profit">0</span> | 報酬率: <span id="${currency.toLowerCase()}-return">0%</span></p>
-      `;
-      
-      // 顯示結果
-      quoteContainer.appendChild(quoteElement);
-    });
-  } else {
-    console.error('API 回傳的數據格式錯誤或無法取得數據');
+  } catch (error) {
+    console.error("無法取得即時報價:", error);
   }
 }
 
-// 交易紀錄添加
-document.getElementById('transaction-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const date = document.getElementById('date').value;
-  const currency = document.getElementById('currency').value;
-  const action = document.getElementById('action').value;
-  const price = document.getElementById('price').value;
-  const quantity = document.getElementById('quantity').value;
-  const fee = document.getElementById('fee').value;
-  const note = document.getElementById('note').value;
+// 更新每個幣別的顯示
+function updateCurrencyData(currency, price, portfolio) {
+  const priceElement = document.getElementById(`${currency.toLowerCase()}-price`);
+  const positionElement = document.getElementById(`${currency.toLowerCase()}-position`);
+  const profitElement = document.getElementById(`${currency.toLowerCase()}-profit`);
+  const returnElement = document.getElementById(`${currency.toLowerCase()}-return`);
 
-  const table = document.getElementById('transaction-table').getElementsByTagName('tbody')[0];
-  const row = table.insertRow();
+  priceElement.innerText = `${price} TWD`;
+  positionElement.innerText = portfolio.position;
+  profitElement.innerText = `${portfolio.profit} TWD`;
+  returnElement.innerText = `${calculateReturn(portfolio.buyPrice, price)}%`;
 
-  row.innerHTML = `
-    <td>${date}</td>
-    <td>${currency}</td>
-    <td>${action}</td>
-    <td>${price}</td>
-    <td>${quantity}</td>
-    <td>${fee}</td>
-    <td>${note}</td>
-    <td><button class="delete">刪除</button></td>
-  `;
+  // 計算報酬率
+  const returnRate = calculateReturn(portfolio.buyPrice, price);
 
-  row.querySelector('.delete').addEventListener('click', function() {
-    row.remove();
-  });
-});
+  // 根據獲利顯示顏色和箭頭
+  if (portfolio.profit < 0) {
+    profitElement.classList.add('red');
+    profitElement.innerHTML += ' <span>&#8595;</span>'; // 向下箭頭
+  } else {
+    profitElement.classList.add('green');
+    profitElement.innerHTML += ' <span>&#8593;</span>'; // 向上箭頭
+  }
+}
+
+// 計算報酬率
+function calculateReturn(buyPrice, currentPrice) {
+  const diff = currentPrice - buyPrice;
+  const returnRate = (diff / buyPrice) * 100;
+  return returnRate.toFixed(2); // 保留兩位小數
+}
 
 // 頁面載入時即更新即時報價
 updateQuotes();
+
+// 設置每 10 秒自動更新即時報價
+setInterval(updateQuotes, 10000);
