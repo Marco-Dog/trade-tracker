@@ -1,67 +1,46 @@
-// CoinGecko API URL
-const COINGECKO_API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,cardano,dogecoin,shiba-inu&vs_currencies=twd";
+// Google Sheets API URL
+const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwaAWEFQbS127UQbM96ZCioC7pRDbx9swiqdDzCz_irCaq5paa5z-EuR5YZ1gkx882L/exec";
 
-// 即時報價區域更新
-async function updateQuotes() {
+// 儲存交易紀錄到 Google Sheets
+async function saveTransactionToSheet(transaction) {
   try {
-    const response = await fetch(COINGECKO_API_URL);
-    const data = await response.json();
+    const response = await fetch(GOOGLE_SHEET_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transaction),
+    });
 
-    // 模擬的持倉量和獲利資料，您可以根據實際情況進行動態更新
-    const portfolio = {
-      BTC: { position: 0.5, profit: 5000, buyPrice: 48000 },
-      ETH: { position: 1, profit: -100, buyPrice: 3200 },
-      ADA: { position: 100, profit: 250, buyPrice: 2.3 },
-      DOGE: { position: 10000, profit: -50, buyPrice: 0.08 },
-      SHIB: { position: 1000000, profit: 100, buyPrice: 0.000008 },
-    };
-
-    // 更新每個幣別的報價
-    updateCurrencyData("BTC", data.bitcoin.twd, portfolio.BTC);
-    updateCurrencyData("ETH", data.ethereum.twd, portfolio.ETH);
-    updateCurrencyData("ADA", data.cardano.twd, portfolio.ADA);
-    updateCurrencyData("DOGE", data.dogecoin.twd, portfolio.DOGE);
-    updateCurrencyData("SHIB", data["shiba-inu"].twd, portfolio.SHIB);
-    
+    const result = await response.json();
+    if (result.success) {
+      alert("交易紀錄已成功儲存！");
+    } else {
+      alert("儲存交易紀錄失敗，請稍後再試！");
+    }
   } catch (error) {
-    console.error("無法取得即時報價:", error);
+    console.error("儲存交易紀錄時發生錯誤:", error);
+    alert("發生錯誤，請稍後再試！");
   }
 }
 
-// 更新每個幣別的顯示
-function updateCurrencyData(currency, price, portfolio) {
-  const priceElement = document.getElementById(`${currency.toLowerCase()}-price`);
-  const positionElement = document.getElementById(`${currency.toLowerCase()}-position`);
-  const profitElement = document.getElementById(`${currency.toLowerCase()}-profit`);
-  const returnElement = document.getElementById(`${currency.toLowerCase()}-return`);
+// 處理交易紀錄表單提交
+function handleFormSubmit(event) {
+  event.preventDefault();
 
-  priceElement.innerText = `${price} TWD`;
-  positionElement.innerText = portfolio.position;
-  profitElement.innerText = `${portfolio.profit} TWD`;
-  returnElement.innerText = `${calculateReturn(portfolio.buyPrice, price)}%`;
+  const transaction = {
+    date: document.getElementById("transaction-date").value,
+    currency: document.getElementById("transaction-currency").value,
+    type: document.getElementById("transaction-type").value,
+    price: parseFloat(document.getElementById("transaction-price").value),
+    quantity: parseFloat(document.getElementById("transaction-quantity").value),
+    fee: parseFloat(document.getElementById("transaction-fee").value),
+    note: document.getElementById("transaction-note").value,
+  };
 
-  // 計算報酬率
-  const returnRate = calculateReturn(portfolio.buyPrice, price);
-
-  // 根據獲利顯示顏色和箭頭
-  if (portfolio.profit < 0) {
-    profitElement.classList.add('red');
-    profitElement.innerHTML += ' <span>&#8595;</span>'; // 向下箭頭
-  } else {
-    profitElement.classList.add('green');
-    profitElement.innerHTML += ' <span>&#8593;</span>'; // 向上箭頭
-  }
+  // 儲存交易紀錄
+  saveTransactionToSheet(transaction);
 }
 
-// 計算報酬率
-function calculateReturn(buyPrice, currentPrice) {
-  const diff = currentPrice - buyPrice;
-  const returnRate = (diff / buyPrice) * 100;
-  return returnRate.toFixed(2); // 保留兩位小數
-}
-
-// 頁面載入時即更新即時報價
-updateQuotes();
-
-// 設置每 10 秒自動更新即時報價
-setInterval(updateQuotes, 10000);
+// 設定表單提交事件
+document.getElementById("transaction-form").addEventListener("submit", handleFormSubmit);
