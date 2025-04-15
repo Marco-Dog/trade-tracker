@@ -6,14 +6,14 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to right, #1f4037, #99f2c8);
-  color: #f5f5f5;
+  background: #eae7dc; /* 柔霧灰米色 */
+  color: #3e3e3e;
   width: 100%;
 }
 
 /* Typography */
 h1, h2, h3 {
-  color: #ffd700;
+  color: #6b5b4b; /* 莫蘭迪深棕灰 */
   font-weight: bold;
 }
 h1 {
@@ -25,9 +25,10 @@ h2 {
 
 /* Header */
 header {
-  background-color: #111;
+  background-color: #c8b6a6; /* 莫蘭迪裸粉灰 */
   padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(107, 91, 75, 0.3);
+  color: #fffaf5;
 }
 .container-header {
   max-width: 90%;
@@ -37,6 +38,7 @@ header {
   align-items: center;
 }
 
+/* Navigation */
 nav ul {
   list-style: none;
   display: flex;
@@ -46,58 +48,37 @@ nav ul {
 }
 nav a {
   text-decoration: none;
-  color: #fff;
+  color: #5d534b;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  background: #333;
+  background: #f3f1ed;
+  border: 1px solid #d6cfc7;
+  transition: 0.3s;
 }
-nav a:hover {
-  background: #ffd700;
-  color: #000;
-}
-
+nav a:hover,
 nav a.active {
-  background: #ffd700;
-  color: #000;
-  font-weight: bold;
-}
-
-/* 📱 漢堡選單樣式 */
-.hamburger {
-  display: none;
-  font-size: 1.8rem;
-  background: none;
-  border: none;
+  background: #9d8b7d;
   color: white;
-  cursor: pointer;
-}
-
-/* 導覽列預設為水平排列 */
-#navbar ul {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.page-section {
-  display: none; /* 預設隱藏 */
-}
-
-.page-section.active {
-  display: block; /* 被啟用的才顯示 */
+  font-weight: bold;
 }
 
 /* Sections */
 .page-section {
+  display: none;
   margin: 2rem auto;
   padding: 2rem;
-  background: rgba(0,0,0,0.4);
+  background: rgba(250, 248, 243, 0.9);
   border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(107, 91, 75, 0.1);
+  border: 1px solid #d8d3cc;
+}
+.page-section.active {
+  display: block;
 }
 
 /* Forms */
 form {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.8);
   padding: 1rem;
   border-radius: 1rem;
 }
@@ -111,30 +92,45 @@ label {
 input, select {
   width: 100%;
   padding: 0.5rem;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  color: white;
+  border: 1px solid #bfb6aa;
+  background: #fdfcfb;
+  color: #3e3e3e;
   border-radius: 0.5rem;
 }
 input:focus, select:focus {
-  outline: 2px solid #ffd700;
+  outline: 2px solid #a89f94;
 }
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* Buttons */
 button {
   padding: 0.5rem 1rem;
-  background: #ffd700;
+  background: #9d8b7d;
   border: none;
   border-radius: 1rem;
-  color: #222;
+  color: white;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
 }
 button:hover {
-  background: #ffc107;
+  background: #7c6c5e;
   transform: scale(1.05);
 }
 
-/* Tables */
+button.remove-btn:hover {
+  background: #b25c5c;
+}
+button.close-btn:hover {
+  background: #6e9a8c;
+}
+
+/* Table */
 .table-wrapper {
   overflow-x: auto;
   margin-top: 2rem;
@@ -142,7 +138,7 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0,0,0,0.3);
+  background: #f8f6f4;
   border-radius: 1rem;
 }
 th, td {
@@ -150,11 +146,11 @@ th, td {
   text-align: center;
 }
 th {
-  background: #222;
-  color: #ffd700;
+  background: #d6cfc7;
+  color: #5e5b55;
 }
 tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.05);
+  background: #f4f2f0;
 }
 
 /* Strategy Legs */
@@ -169,14 +165,38 @@ tr:nth-child(even) {
 .status-tag {
   padding: 0.3rem 0.6rem;
   border-radius: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
 }
 .status-open {
-  background: #4caf50;
+  background: #a8c0a0;
+  color: white;
 }
 .status-closed {
-  background: #f44336;
+  background: #b56d6d;
   color: white;
+}
+
+/* 按鈕欄位 */
+#closeBtn {
+  display: none;
+}
+.btn-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.td-btn {
+  width: 3.5rem;
+  text-align: center;
+  vertical-align: middle;
+}
+.td-btn button {
+  width: 3rem;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.5rem;
+  white-space: nowrap;
 }
 
 /* Footer */
@@ -186,38 +206,46 @@ footer {
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  background: #111;
-  color: #aaa;
+  background: #d6cfc7;
+  color: #7b7269;
 }
 
 /* Modal Styles */
 .modal {
-  display: none; /* 默認隱藏 */
+  display: none;
   position: fixed;
-  z-index: 1; /* 確保模態框在其他元素之上 */
+  z-index: 99;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* 半透明背景 */
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: #f8f6f4;
+  color: #3e3e3e;
   margin: 15% auto;
   padding: 20px;
-  border-radius: 10px;
   width: 300px;
-  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.modal-content input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.modal-content button {
+  margin-right: 10px;
 }
 
 .close {
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
+  float: right;
+  font-size: 20px;
   cursor: pointer;
 }
-
 .close:hover,
 .close:focus {
   color: black;
@@ -225,28 +253,16 @@ footer {
   cursor: pointer;
 }
 
-
-/* 🖥️ Desktop */
-@media (min-width: 1024px) {
-  .container-header {
-    max-width: 1200px;
-    justify-content: space-between;
-  }
-
-  nav ul {
-    gap: 2rem;
-  }
-
-  .page-section {
-    padding: 3rem;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-  }
+/* 動畫 */
+.strategy-detail-row {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* 📱 Tablet */
+/* 📱 響應式設計 */
 @media (max-width: 1024px) {
   .container-header {
     flex-direction: column;
@@ -254,104 +270,55 @@ footer {
   }
 
   nav ul {
-    align-items: center;
+    gap: 0.75rem;
   }
 
+  td {
+    font-size: 0.9rem;
+  }
   .page-section {
-    padding: 2rem;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  nav a {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+    padding: 1.5rem;
+    margin: 1rem;
   }
 }
 
-/* 📱 Mobile */
 @media (max-width: 768px) {
   body {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
 
   h2 {
     font-size: 1.2rem;
   }
 
-  h3 {
-    font-size: 1rem;
-  }
-
-  .hamburger {
-    display: block;
-  }
-
-  #navbar {
-    display: none;
-    width: 100%;
-  }
-
-  #navbar.open {
-    display: block;
-  }
-
-  #navbar ul {
-    flex-direction: column;
-    background-color: #222;
-    margin-top: 1rem;
-    padding: 0;
-  }
-
-  #navbar li {
-    border-top: 1px solid #444;
-    padding: 0.5rem 1rem;
-  }
-
-  #navbar a {
-    display: block;
-    width: 100%;
-  }
-
   nav a {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.6rem;
-    width: 30%;
+    font-size: 0.8rem;
+    width: 33%;
   }
 
   .page-section {
-    margin: 1.5rem 0;
-    padding: 1.2rem;
-  }
-
-  form {
     padding: 1rem;
+    margin: 1rem 0.5rem;
   }
 
   input, select {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   button {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
   }
 
   table {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 
   th, td {
-    padding: 0.6rem;
-  }
-
-  .status-tag {
-    font-size: 0.7rem;
+    padding: 0.5rem;
   }
 }
