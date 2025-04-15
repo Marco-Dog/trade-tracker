@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stock & Options Tracker</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -12,20 +12,16 @@
 <header>
   <div class="container-header">
     <h1>📈 Stock.Options.Tracker</h1>
-    <button id="menuToggle" class="hamburger" aria-label="Toggle Menu">
-      ☰
-    </button>
     <nav id="navbar">
       <ul>
         <li><a href="#" data-target="stocktrade" class="active">Stock Records</a></li>
         <li><a href="#" data-target="optionstrategy">Options Records</a></li>
-        <li><a href="#" data-target="histoy">History</a></li>
+        <li><a href="#" data-target="history">History</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-  
 <main>     
   <!-- 📈 Stock Records 區塊 -->
   <section id="stocktrade" class="page-section">
@@ -55,11 +51,11 @@
               </div>
               <div>
                 <label for="price">價格</label>
-                <input type="number" id="price" placeholder="請輸入價格" step="0.001" required />
+                <input type="number" id="price" placeholder="請輸入價格" step="0.001" min="0" required />
               </div>
               <div>
                 <label for="quantity">數量</label>
-                <input type="number" id="quantity" placeholder="請輸入數量" required />
+                <input type="number" id="quantity" placeholder="請輸入數量" min="1" required />
               </div>
               <div>
                 <label for="note">備註</label>
@@ -114,26 +110,33 @@
               <label for="optionid">股票代碼</label>
               <input type="text" id="optionid" placeholder="請輸入代碼" required />
             </div>
+            <div>
+              <label for="margin">保證金</label>
+              <input type="number" id="margin" placeholder="請輸入保證金" required />
+            </div>
+            <div>
+              <label for="premium">權利金</label>
+              <input type="number" id="premium" class="premium" placeholder="請輸入價格（權利金）" step="0.001" required />
+            </div>
             <div id="legsContainer">
               <h4>腳部位</h4>
               <div class="leg-row">
                 <select class="tradetype" required>
-                  <option value="buy">Buy</option>
                   <option value="sell">Sell</option>
+                  <option value="buy">Buy</option>
                 </select>
                 <select class="side" required>
-                  <option value="call">Call</option>
                   <option value="put">Put</option>
+                  <option value="call">Call</option>
                 </select>
                 <input type="number" class="strike" placeholder="履約價" step="0.001" required />
-                <input type="number" class="price" placeholder="價格（權利金）" step="0.001" required />
                 <input type="number" class="qty" placeholder="數量" required />
                 <input type="text" class="note" placeholder="備註" />
                 <button type="button" class="remove-leg">❌</button>
               </div>
             </div>
             <button type="button" id="addLeg">➕ 增加一腳</button>
-            <button type="button" id="submitStrategy">✅ 紀錄策略</button>
+            <button type="submit" id="submitStrategy">✅ 紀錄策略</button>
           </form>
         </div>
         <!-- 策略表格 -->
@@ -143,9 +146,10 @@
               <tr>
                 <th>策略名稱</th>
                 <th>到期日</th>
-                <th>股票代碼</th>
                 <th>交易明細</th>
+                <th>權利金</th>
                 <th>狀態</th>
+                <th>備註</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -158,31 +162,37 @@
 
   <!-- 📚 History -->
   <section id="history" class="page-section">
-    <section class="histoytrades">
+    <section class="historytrades">
       <div class="container-history">
         <h2>歷史紀錄</h2>
       </div>
     </section>
   </section>  
-</main>
-
-<!-- Close Option Button -->
-<button id="closeBtn" class="close-btn">平倉</button>
-
-<!-- Modal -->
-<div id="closeModal" class="modal">
-  <div class="modal-content">
-    <span id="closeModalClose" class="close">&times;</span>
-    <p>您確定要平倉嗎？</p>
-    <button id="confirmClose">確定</button>
-    <button id="cancelClose">取消</button>
+  
+  <!-- 平倉輸入 Modal -->
+  <div id="closeModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModalClose" class="close">&times;</span>
+      <h3>平倉資訊</h3>
+      <label>平倉日期：
+        <input type="date" id="inputCloseDate" required />
+      </label>
+      <label>平倉價格：
+        <input type="number" id="inputClosePrice" step="0.001" required />
+      </label>
+      <label>備註：
+        <input type="text" id="inputCloseNote" />
+      </label>
+      <button id="confirmClose">✅ 確定</button>
+      <button id="cancelClose">取消</button>
+    </div>
   </div>
-</div>
 
+</main>
 
 <!-- 頁尾 -->
 <footer>
-  <p> Copyright 2025.© 版權屬於萱，請多多指教</p>
+  <p>Copyright 2025.© 版權所有，萱，請多多指教。</p>
 </footer>
     
 <script src="script.js"></script>
